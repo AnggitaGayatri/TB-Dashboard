@@ -156,3 +156,11 @@ with col2:
                                 color_discrete_sequence=px.colors.qualitative.Pastel)  # Using pastel colors
     with st.expander('Pie Chart of TB Deaths', expanded=True):
         st.plotly_chart(pie_fig_year_range)
+
+# Display TB and TB-HIV Mortality by Country over selected year range in the right column
+with col3:
+    bar_fig = px.bar(filtered_data, x='year', y=['tb_mortality', 'tb_hiv_mortality'],
+                     barmode='group', labels={'value':'Mortality', 'variable':'Type'},
+                     color_discrete_sequence=px.colors.qualitative.Pastel)  # Using pastel colors
+    with st.expander('TB and TB-HIV Mortality', expanded=True):
+        st.plotly_chart(bar_fig)
