@@ -130,13 +130,16 @@ with col2:
     pie_data_year_range = filtered_data[['year', 'tb_deaths', 'tb_hiv_deaths']]
     pie_data_year_range = pie_data_year_range.melt(id_vars=['year'], value_vars=['tb_deaths', 'tb_hiv_deaths'],
                                                    var_name='Category', value_name='Count')
-    pie_data_year_range['Category'] = pie_data_year_range['Category'].replace({
-        'tb_deaths': 'Without HIV',
-        'tb_hiv_deaths': 'With HIV'
-    })
     pie_fig_year_range = px.pie(pie_data_year_range, values='Count', names='Category',
-                                color_discrete_sequence=px.colors.qualitative.Pastel)
-    with st.expander('Distribution of TB Number of Deaths.', expanded=True):
+                                color_discrete_sequence=['#092635', '#1B4242', '#5C8374', '#9EC8B9'])
+    pie_fig_year_range.update_layout(legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=-0.2,
+        xanchor="center",
+        x=0.5
+    ))
+    with st.expander('Pie Chart of TB Deaths', expanded=True):
         st.plotly_chart(pie_fig_year_range)
 
 # Display TB and TB-HIV Mortality by Country over selected year range in the right column
