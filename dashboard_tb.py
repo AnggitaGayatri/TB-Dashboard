@@ -147,3 +147,12 @@ with col1:
                        color_discrete_sequence=px.colors.qualitative.Pastel)  # Using pastel colors
     with st.expander('Line Chart of TB Prevalence', expanded=True):
         st.plotly_chart(fig_line)
+
+with col2:
+    pie_data_year_range = filtered_data[['year', 'tb_deaths', 'tb_hiv_deaths']]
+    pie_data_year_range = pie_data_year_range.melt(id_vars=['year'], value_vars=['tb_deaths', 'tb_hiv_deaths'],
+                                                   var_name='Category', value_name='Count')
+    pie_fig_year_range = px.pie(pie_data_year_range, values='Count', names='Category',
+                                color_discrete_sequence=px.colors.qualitative.Pastel)  # Using pastel colors
+    with st.expander('Pie Chart of TB Deaths', expanded=True):
+        st.plotly_chart(pie_fig_year_range)
