@@ -130,3 +130,20 @@ with right_column:
     top_countries_tb_incidents = filtered_data_year.sort_values(by='tb_incident', ascending=False).head(5)[['country', 'tb_incident']]
     top_countries_tb_incidents.columns = ['negara', 'jumlah insiden']  # Rename columns
     st.table(top_countries_tb_incidents.set_index('negara').style.format("{:,}"))
+
+    # Filter data based on selection
+selected_country = st.selectbox('Pilih Negara', df['country'].unique())
+selected_year_range = st.slider('Pilih Rentang Tahun', min_value=int(df['year'].min()), max_value=int(df['year'].max()), value=(int(df['year'].min()), int(df['year'].max())))
+
+# Filter data based on selection
+filtered_data = df[(df['country'] == selected_country) & (df['year'].between(*selected_year_range))]
+
+# Display Line Chart of TB Prevalence and Bar Plot of TB Deaths in columns
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    fig_line = px.line(filtered_data, x='year', y='tb_prevalence', color='country',
+                       labels={'tb_prevalence': 'TB Prevalence'},
+                       color_discrete_sequence=px.colors.qualitative.Pastel)  # Using pastel colors
+    with st.expander('Line Chart of TB Prevalence', expanded=True):
+        st.plotly_chart(fig_line)
