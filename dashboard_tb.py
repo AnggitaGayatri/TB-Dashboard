@@ -139,11 +139,20 @@ with col2:
     with st.expander('Distribution of TB Number of Deaths.', expanded=True):
         st.plotly_chart(pie_fig_year_range)
 
+# Display TB and TB-HIV Mortality by Country over selected year range in the right column
 with col3:
-    filtered_data = filtered_data.rename(columns={'tb_mortality': 'Without HIV', 'tb_hiv_mortality': 'With HIV'})
-    
-    bar_fig = px.bar(filtered_data, x='year', y=['Without HIV', 'With HIV'],
-                     barmode='group', labels={'value': 'Mortality', 'variable': 'Type'},
-                     color_discrete_sequence=px.colors.qualitative.Pastel)
-    with st.expander('Mortality Rates With vs Without HIV', expanded=True):
+    bar_fig = px.bar(filtered_data, x='year', y=['tb_mortality', 'tb_hiv_mortality'],
+                     barmode='group', labels={'value':'Mortality', 'variable':'Type'},
+                     color_discrete_sequence=px.colors.qualitative.Pastel)  # Using pastel colors
+    # Update the layout to move the legend
+    bar_fig.update_layout(
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=-0.3,
+            xanchor="center",
+            x=0.5
+        )
+    )
+    with st.expander('TB and TB-HIV Mortality', expanded=True):
         st.plotly_chart(bar_fig)
